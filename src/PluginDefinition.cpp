@@ -240,7 +240,7 @@ void sortArray(std::string* v, int lenght, std::string* vSorted) {
         // Find the longest string of the unsorted yet strings
         size_t maxStringLength = 0;
         size_t size = 0;
-        for (int i = 0; i < lenght; ++i) {
+        for (size_t i = 0; i < lenght; ++i) {
             size = v[i].size();
             if (size > maxStringLength && sorted[i] == false) {
                 maxStringLength = size;
@@ -248,7 +248,7 @@ void sortArray(std::string* v, int lenght, std::string* vSorted) {
         }
 
         // For each 'c' character of each unsorted-yet strings
-        int c;
+        size_t c;
         for (c = 0; c < maxStringLength; ++c) {
             // Get the 'weight' (decimal value of each character)
             int nextCandidateWeight = 9999;
