@@ -126,7 +126,7 @@ void showDebugMessage_str(std::string str)
     ::MessageBox(NULL, wline.c_str(), TEXT("Plugin Message"), MB_OK);
 }
 
-void readLine(HWND curScint, int lineNumber, std::string& buffer)
+void readLine(HWND curScint, size_t lineNumber, std::string& buffer)
 {
     // Get start and end positions
     Sci_Position start = (Sci_Position)::SendMessage(curScint, SCI_POSITIONFROMLINE, lineNumber, 0);
@@ -198,7 +198,7 @@ void writeTextIntoCurrentScintilla(HWND Scintilla, std::string text)
     ::SendMessage(Scintilla, SCI_SETSEL, (WPARAM)-1, (LPARAM)-1);
 }
 
-void writeTextArrayIntoCurrentScintilla_lineByLine(HWND Scintilla, std::string array[], int arrayLength, bool isolateCTRL_Z)
+void writeTextArrayIntoCurrentScintilla_lineByLine(HWND Scintilla, std::string array[], size_t arrayLength, bool isolateCTRL_Z)
 {
     if (isolateCTRL_Z == true)
     {
@@ -224,7 +224,7 @@ void writeTextArrayIntoCurrentScintilla_lineByLine(HWND Scintilla, std::string a
 }
 
 
-void sortArray(std::string* v, int lenght, std::string* vSorted) {
+void sortArray(std::string* v, size_t lenght, std::string* vSorted) {
     bool sorted[MAXSUPPORTEDLINES_COUNT];
     for (int i = 0; i < lenght; ++i)
         sorted[i] = false;
@@ -328,13 +328,13 @@ void compareLists()
     std::string list1[MAXSUPPORTEDLINES_COUNT];
     std::string list1Sorted[MAXSUPPORTEDLINES_COUNT];
     std::string list1SortedWithoutDuplicates[MAXSUPPORTEDLINES_COUNT];
-    int list1Length = 0;
+    size_t list1Length = 0;
     std::string list2[MAXSUPPORTEDLINES_COUNT];
     std::string list2Sorted[MAXSUPPORTEDLINES_COUNT];
     std::string list2SortedWithoutDuplicates[MAXSUPPORTEDLINES_COUNT];
-    int list2Length = 0;
-    int lineCount = (int)::SendMessage(sci, SCI_GETLINECOUNT, 0, 0);
-    int line_no = 0;
+    size_t list2Length = 0;
+    size_t lineCount = (int)::SendMessage(sci, SCI_GETLINECOUNT, 0, 0);
+    size_t line_no = 0;
     std::string line;
     
     // Ignore any empty lines at the start
@@ -351,7 +351,7 @@ void compareLists()
 
 
     // ------ Build LIST 2 ------ //
-    int i = 0; // To access the list
+    size_t i = 0; // To access the list
     for (line_no = line_no; line_no < lineCount && i < MAXSUPPORTEDLINES_COUNT; line_no++)
         {
         // Read the line
@@ -411,7 +411,7 @@ void compareLists()
         int appearancesInList1 = 0;
         int appearancesInList2 = 0;
     }items_table[MAXSUPPORTEDLINES_COUNT * 2];
-    int items_tableLength = 0;
+    size_t items_tableLength = 0;
 
     // Process the list 1
     for (i = 0; i < list1Length; i++) {
@@ -419,7 +419,7 @@ void compareLists()
 
         // Find if the item is already in the table. In that case, ignore it, as it has been already been counted
         bool alreadyThere = false;
-        for (int t = 0; t < items_tableLength; ++t)
+        for (size_t t = 0; t < items_tableLength; ++t)
         {
             if (auxItem == items_table[t].item)
             {
@@ -432,13 +432,13 @@ void compareLists()
         // Add the item to the table
         items_table[items_tableLength].item = auxItem;
         // Count the number of occurrences in the original list 1 (without duplicates removal)
-        for (int ii = 0; ii < list1Length; ++ii)
+        for (size_t ii = 0; ii < list1Length; ++ii)
         {
             if (auxItem == list1[ii])
                 items_table[items_tableLength].appearancesInList1 += 1;
         }
         // Count the number of occurrences in the original list 2 (without duplicates removal)
-        for (int ii = 0; ii < list2Length; ++ii)
+        for (size_t ii = 0; ii < list2Length; ++ii)
         {
             if (auxItem == list2[ii])
                 items_table[items_tableLength].appearancesInList2 += 1;
@@ -451,7 +451,7 @@ void compareLists()
 
         // Find if the item is already in the table. In that case, ignore it, as it has been already been counted
         bool alreadyThere = false;
-        for (int t = 0; t < items_tableLength; ++t)
+        for (size_t t = 0; t < items_tableLength; ++t)
         {
             if (auxItem == items_table[t].item)
             {
@@ -464,13 +464,13 @@ void compareLists()
         // Add the item to the table
         items_table[items_tableLength].item = auxItem;
         // Count the number of occurrences in the original list 1 (without duplicates removal)
-        for (int ii = 0; ii < list1Length; ++ii)
+        for (size_t ii = 0; ii < list1Length; ++ii)
         {
             if (auxItem == list1[ii])
                 items_table[items_tableLength].appearancesInList1 += 1;
         }
         // Count the number of occurrences in the original list 2 (without duplicates removal)
-        for (int ii = 0; ii < list2Length; ++ii)
+        for (size_t ii = 0; ii < list2Length; ++ii)
         {
             if (auxItem == list2[ii])
                 items_table[items_tableLength].appearancesInList2 += 1;
@@ -479,14 +479,14 @@ void compareLists()
     }
 
     std::string list1Only[MAXSUPPORTEDLINES_COUNT];
-    int list1OnlyLength = 0;
+    size_t list1OnlyLength = 0;
     std::string list2Only[MAXSUPPORTEDLINES_COUNT];
-    int list2OnlyLength = 0;
+    size_t list2OnlyLength = 0;
     std::string listCommon[MAXSUPPORTEDLINES_COUNT];
-    int listCommonLength = 0;
+    size_t listCommonLength = 0;
 
 
-    for (int t = 0; t < items_tableLength; ++t) {
+    for (size_t t = 0; t < items_tableLength; ++t) {
         // Add the item to List 1 if applicable
         if (items_table[t].appearancesInList1 > 0 && items_table[t].appearancesInList2 == 0)
         {
